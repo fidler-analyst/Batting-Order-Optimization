@@ -42,5 +42,66 @@ for rocky in rockies:
     rockies_df.loc[rocky, '3rd'] = player_games_df.iloc[2].mean()
     rockies_df.loc[rocky, '4th'] = player_games_df.iloc[3].mean()
         
+array = list(range(0, 32))      
+pot_lup = pd.DataFrame()
+lup_counter = 0
+pot_lup_eval = pd.Series()
+test_lup = pd.Series(index = array, dtype = float)
+lup_df = pd.DataFrame()
+
+for egt in rockies:
+    test_lup[0], test_lup[8], test_lup[16], test_lup[24] = rockies_df.loc[egt, '1st'], rockies_df.loc[egt, '2nd'], rockies_df.loc[egt, '3rd'], rockies_df.loc[egt, '4th']
+    sev_left = [x for x in rockies if x != egt]
+    
+    for sev in sev_left:
+        test_lup[1], test_lup[9], test_lup[17], test_lup[25] = rockies_df.loc[sev, '1st'], rockies_df.loc[sev, '2nd'], rockies_df.loc[sev, '3rd'], rockies_df.loc[sev, '4th']
+        six_left = [x for x in sev_left if x != sev]
         
+        for six in six_left:
+            test_lup[2], test_lup[10], test_lup[18], test_lup[26] = rockies_df.loc[six, '1st'], rockies_df.loc[six, '2nd'], rockies_df.loc[six, '3rd'], rockies_df.loc[six, '4th']
+            fiv_left = [x for x in six_left if x != six]
+
+            for fiv in fiv_left:
+                test_lup[3], test_lup[11], test_lup[19], test_lup[27] = rockies_df.loc[fiv, '1st'], rockies_df.loc[fiv, '2nd'], rockies_df.loc[fiv, '3rd'], rockies_df.loc[fiv, '4th']
+                frr_left = [x for x in fiv_left if x != fiv]
+
+                for frr in frr_left:
+                    test_lup[4], test_lup[12], test_lup[20], test_lup[28] = rockies_df.loc[frr, '1st'], rockies_df.loc[frr, '2nd'], rockies_df.loc[frr, '3rd'], rockies_df.loc[frr, '4th']
+                    tre_left = [x for x in frr_left if x != frr]
+
+                    for tre in tre_left:
+                        test_lup[5], test_lup[13], test_lup[21], test_lup[29] = rockies_df.loc[tre, '1st'], rockies_df.loc[tre, '2nd'], rockies_df.loc[tre, '3rd'], rockies_df.loc[tre, '4th']
+                        two_left = [x for x in tre_left if x != tre]
+
+                        for two in two_left:
+                            test_lup[6], test_lup[14], test_lup[22], test_lup[30] = rockies_df.loc[two, '1st'], rockies_df.loc[two, '2nd'], rockies_df.loc[two, '3rd'], rockies_df.loc[two, '4th']
+                            one_left =  [x for x in two_left if x != two]
+                            
+                            for one in one_left:
+                                test_lup[7], test_lup[15], test_lup[23], test_lup[31] = rockies_df.loc[one, '1st'], rockies_df.loc[one, '2nd'], rockies_df.loc[one, '3rd'], rockies_df.loc[one, '4th']
+                                evaluation = 0                                                                                                                             
+                                lup = [egt, sev, six, fiv, frr, tre, two, one]
+                               
+                                for i in list(range(0, 31)):
+                                        evaluation += test_lup.iloc[i]*test_lup.iloc[i+1]                                
+                               
+                                pot_lup.insert(lup_counter, lup_counter, test_lup)
+                                pot_lup_eval.loc[lup_counter] = evaluation                            
+                                lup_df.insert(lup_counter, lup_counter, lup)
+                                lup_counter+=1
+
+best_lup_idx = pot_lup_eval.idxmax()
+best_lup_s = pot_lup[best_lup_idx]
+
+FINAL_LUP = pd.DataFrame(index = lup_df[best_lup_idx], columns = ['1st', '2nd', '3rd', '4th'])
+r1 = best_lup_s[0:8].to_list()
+r2 = best_lup_s[8:16].to_list()
+r3 = best_lup_s[16:24].to_list()
+r4 = best_lup_s[24: :].to_list()
+FINAL_LUP['1st'] = r1
+FINAL_LUP['2nd'] = r2
+FINAL_LUP['3rd'] = r3
+FINAL_LUP['4th'] = r4
+
+print(FINAL_LUP)
         
