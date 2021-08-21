@@ -14,20 +14,18 @@ df2 = df1.replace({'PLAYTYPE': {'SINGLE':1,'DOUBLE':2,'TRIPLE':3, 'HOME RUN':4, 
 
 
 #rockies lineup
-rockies = ['Raimel Tapia', 'Brendan Rodgers', 'Charlie Blackmon', 'Trevor Story', 'C.J. Cron', \
-           'Elias Diaz', 'Sam Hilliard', 'Joshua Fuentes']
+rockies = ['Garrett Hampson','Raimel Tapia', 'Charlie Blackmon','Elias Diaz',  \
+            'Ryan McMahon', 'C.J. Cron','Brendan Rodgers',  'Trevor Story']
 #rockies player data frame  
 rockies_df = pd.DataFrame(index = rockies, columns = ['1st', '2nd', '3rd', '4th'])
 
 
-for rocky in rockies:
-    #set counter of appearance number
-    #Fst, Scd, Thd, Fth = 0, 0, 0, 0
-    
+for rocky in rockies:    
     #creates a dataframe of the players appearances
     player_df = df2.loc[df2['BATTER'] == rocky]
-    #creates a list of the game id's
+    #creates a list of the game id's that they've played
     player_games = pd.Series(player_df['GAME ID']).drop_duplicates().to_list()
+    #a blank df to collect all of their games and appearances
     player_games_df = pd.DataFrame()
     for game in player_games:
         #creates a dataframe of the appearances for the individual game
@@ -36,11 +34,12 @@ for rocky in rockies:
         player_game_df.drop(columns = ['index', 'GAME ID', 'BATTER'], inplace = True)
         player_games_df = pd.concat([player_games_df, player_game_df], axis = 1, ignore_index = True)
         
-        #store the mean number of bases by appearance number in rockies_df
+    #store the mean number of bases by appearance number in rockies_df
     rockies_df.loc[rocky, '1st'] = player_games_df.iloc[0].mean()
     rockies_df.loc[rocky, '2nd'] = player_games_df.iloc[1].mean()
     rockies_df.loc[rocky, '3rd'] = player_games_df.iloc[2].mean()
     rockies_df.loc[rocky, '4th'] = player_games_df.iloc[3].mean()
+        
         
 array = list(range(0, 32))      
 pot_lup = pd.DataFrame()
@@ -103,5 +102,6 @@ FINAL_LUP['2nd'] = r2
 FINAL_LUP['3rd'] = r3
 FINAL_LUP['4th'] = r4
 
+
+FINAL_LUP.to_excel(r'C:\Users\maxfi\Desktop\Python\baseball\Batting Order Optimizer\batting_order_optimizer_results.xlsx')
 print(FINAL_LUP)
-        
