@@ -9,17 +9,12 @@
 # All 8! lineups are evaluated, and the best one is that with the highest sum
 # product within the lineup of whichever baseball statist used.
 
-
-# Status: currently the lineup is generate based off of a sort of weighted OBP
-# Next steps are to back test the model, and then to use other baseball metrics
-# to generate other lineups and compare them.
-
-
 # The model works as follows, the 8 players of interest are plugged into the
-# batting_order_optimizer, it will then go through all 8! combinations and output
-# the best order
+# batting_order_optimizer, it will then calculate their wOBA for their consecutive plate appearances and put it into a table.
+# It will then turns this table into a single array and iterate through all 8! combinations of players and output
+# the best order. Best is determined by that with the highest sum product.
 
-# This lineup is then run through batting_order_back_test. ALl the games where 
+# This lineup is then run through batting_order_back_test. All the games where 
 # those same 8 players start are used, and then the order of them is changed to 
 # match the generated lineup. This is then run through the game simulator which
 # by going through the PLAYTYPE events, determines how many runs would have been scored.
